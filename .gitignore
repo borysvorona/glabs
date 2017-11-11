@@ -1,0 +1,13 @@
+syntax: glob
+*.pyc
+*.orig
+settings.py
+local_settings.py
+.idea
+./dumps/*
+./env/*
+./data/*
+./static/*
+./node_modules/*
+uwsgi.ini
+twistd.pid
