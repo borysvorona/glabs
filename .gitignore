@@ -1,7 +1,6 @@
 syntax: glob
 *.pyc
 *.orig
-settings.py
 local_settings.py
 .idea
 ./dumps/*

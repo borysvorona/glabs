@@ -1,4 +1,9 @@
 Django==1.11.7
 djangorestframework==3.7.3
+factory-boy==2.9.2
+Faker==0.8.6
 pkg-resources==0.0.0
+python-dateutil==2.6.1
 pytz==2017.3
+six==1.11.0
+text-unidecode==1.1
