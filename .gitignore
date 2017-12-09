@@ -1,12 +1,9 @@
-syntax: glob
+*.log
+*.pot
 *.pyc
-*.orig
+__pycache__/
 local_settings.py
+media
 .idea
-./dumps/*
-./env/*
-./data/*
-./static/*
-./node_modules/*
-uwsgi.ini
-twistd.pid
+env/*
+dumps/*

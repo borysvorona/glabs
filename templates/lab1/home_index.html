@@ -3,5 +3,23 @@
 
 {% endblock %}
 {% block body %}
-    {{ form }}
+    <div class="panel panel-default">
+        <form method="POST"}>
+            {% if form.title %}
+                <div class="panel-heading">
+                    {{ form.title }}
+                </div>
+            {% endif %}
+            <div class="panel-body">
+                {% csrf_token %}
+                {{ form }}
+            </div>
+            <div class="panel-footer">
+                <div class="clearfix">
+                    <input type="submit" value="Solve" class="default" />
+                </div>
+            </div>
+        </form>
+    </div>
+
 {% endblock %}
