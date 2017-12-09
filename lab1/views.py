@@ -10,11 +10,8 @@ def home_index(request):
     if form.is_valid():
         data = form.cleaned_data
         firstf = Function(data['expression'], data['start'], data['end'], data['step'])
-        print(firstf.get_result)
         secondf = OrdinaryLeastSquares(firstf)
-        print(secondf.get_expression)
         thirdf = TaylorMethod(data['expression'], firstf.middle_point)
-        print(thirdf.get_expression)
     return render(request,
                   'lab1/home_index.html', {'form': form,
                                            'first': firstf.get_result,
