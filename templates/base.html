@@ -9,16 +9,15 @@
     <title>{% block title %}{% endblock %}</title>
     <meta name="description" content="overview &amp; stats"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-
-
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 </head>
 <body>
-{% block body %}
+    <div class="content">
+        {% block body %}
 
-{% endblock %}
+        {% endblock %}
+    </div>
 </body>
 
 <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>

@@ -45,7 +45,7 @@ class Function(object):
         result = []
         while xx <= self.end:
             xx += self.step
-            result.append(float(xx))
+            result.append(round(float(xx), 4))
         return result
 
     @property

@@ -20,6 +20,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^lab1', include('lab1.urls')),
+    url(r'^', include('lab1.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,7 +4,7 @@
 {% endblock %}
 {% block body %}
     <div class="panel panel-default">
-        <form method="POST"}>
+        <form method="POST">
             {% if form.title %}
                 <div class="panel-heading">
                     {{ form.title }}
@@ -21,14 +21,229 @@
             </div>
         </form>
         <div class="row">
-            {{ first }}
+            <div class="col-sm-4">
+                <canvas id="myFirstChart" width="400" height="400"></canvas>
+            </div>
+            <div class="col-sm-4">
+                <canvas id="mySecondChart" width="400" height="400"></canvas>
+            </div>
+            <div class="col-sm-4">
+                <canvas id="myThirdChart" width="400" height="400"></canvas>
+            </div>
         </div>
         <div class="row">
-            {{ second }}
-        </div>
-        <div class="row">
-            {{ third }}
+            <div class="col-sm-4">
+                <canvas id="myChart" width="400" height="400"></canvas>
+            </div>
         </div>
     </div>
+
+    <script>
+        var configFirst = {
+            type: 'line',
+            data: {
+                labels: {{ first.get_abscissa_only }},
+                datasets: [{
+                    label: "",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: {{ first.get_ordinate_only }},
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                title:{
+                    display:true,
+                    text:'First function'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'x'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'y'
+                        }
+                    }]
+                }
+            }
+        };
+
+        var configSecond = {
+            type: 'line',
+            data: {
+                labels: {{ second.get_abscissa_only }},
+                datasets: [{
+                    label: "",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: {{ second.get_ordinate_only }},
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                title:{
+                    display:true,
+                    text:'Second function'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'x'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'y'
+                        }
+                    }]
+                }
+            }
+        };
+
+        var configThird = {
+            type: 'line',
+            data: {
+                labels: {{ third.get_abscissa_only }},
+                datasets: [{
+                    label: "",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: {{ third.get_ordinate_only }},
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                title:{
+                    display:true,
+                    text:'Third function'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'x'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'y'
+                        }
+                    }]
+                }
+            }
+        };
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: {{ first.get_abscissa_only }},
+                datasets: [{
+                    label: "Native",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: {{ first.get_ordinate_only }},
+                    fill: false
+                }, {
+                    label: "OrdinaryLeastSquares",
+                    backgroundColor: 'rgb(54, 162, 235)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    data: {{ second.get_ordinate_only }},
+                    fill: false,
+                }, {
+                    label: "TaylorMethod",
+                    backgroundColor: 'rgb(75, 192, 192)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    data: {{ third.get_ordinate_only }},
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                title:{
+                    display:true,
+                    text:'Functions'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'x'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'y'
+                        }
+                    }]
+                }
+            }
+        };
+
+
+        window.onload = function() {
+            var first = document.getElementById("myFirstChart").getContext("2d");
+            window.myFirst = new Chart(first, configFirst);
+            var second = document.getElementById("mySecondChart").getContext("2d");
+            window.mySecond = new Chart(second, configSecond);
+            var third = document.getElementById("myThirdChart").getContext("2d");
+            window.myThird = new Chart(third, configThird);
+            var chart = document.getElementById("myChart").getContext("2d");
+            window.myChart = new Chart(chart, config);
+
+        };
+
+    </script>
 
 {% endblock %}
