@@ -1,4 +1,4 @@
-from sympy import N, symbols, sympify, zoo
+from sympy import N, symbols, sympify, zoo, diff
 
 
 class Function(object):
@@ -57,6 +57,10 @@ class Function(object):
             count += 1
         return count
 
+    @property
+    def middle_point(self):
+        return self.start / 2 + self.end / 2
+
 
 class OrdinaryLeastSquares(object):
 
@@ -78,9 +82,22 @@ class OrdinaryLeastSquares(object):
 
     @property
     def get_expression(self):
-        print(self.n)
-        print(self.sum_x)
-        print(self.sum_y)
-        print(self.sum_xx)
-        print(self.sum_xy)
         return '%s * x + %s' % (self.get_a, self.get_b)
+
+
+class TaylorMethod(object):
+
+    def __init__(self, expr, mpoint):
+        self.expr = expr
+        self.mpoint = mpoint
+
+    @property
+    def get_diff(self):
+        return diff(sympify(self.expr))
+
+    @property
+    def get_expression(self):
+        x = symbols('x')
+        answer = N(sympify(self.expr).subs(x, self.mpoint))
+        derivative = N(self.get_diff.subs(x, self.mpoint))
+        return '%s + %s * (x - %s)' % (answer, derivative, self.mpoint)
