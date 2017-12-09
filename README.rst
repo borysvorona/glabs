@@ -1,42 +1,40 @@
 
-Требования
+Requirements
 ==========
 
-Руками надо поставить: ``python 3.5.2``, ``virtualenv``, ``sqlite3``.
+First of first you need to install: ``python 3.5.2``, ``virtualenv``, ``sqlite3``.
 
-Подразумевается, что в системе установлен свежий ``pip`` и через него поставлен ``virtualenvwrapper``.
-
-Установка
+Setup
 =========
 
-Получаем исходный код проекта::
+Get the source code of the project::
 
     $ git clone git@github.com:borysvorona/glabs.git
 
-Создаём и наполняем окружение
+Create and fill the environment
 -----------------------------
 
-Выполняем::
+Execute::
 
     $ cd glabs
     $ virtualenv -p python3 env
     $ source env/bin/activate
     $ pip install -r requirements.txt
 
-Конфигурация базы данных
+Database Configuration
 -----------
 
-Создаем базу данных на SQLite::
+Creating a database on SQLite::
 
     $ ./manage.py migrate
 
-Создаем супер-пользователя командой::
+Create a super user with a command::
 
     $ ./manage.py createsuperuser
 
-Запуск
+Launching
 ------
 
-Теперь должно работать::
+Now it should work::
 
     $ ./manage.py runserver
