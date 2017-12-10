@@ -2,10 +2,10 @@ from django.db import models
 
 
 class MathExpression(models.Model):
-    start = models.DecimalField(max_digits=10, decimal_places=6, default=0.0)
-    end = models.DecimalField(max_digits=10, decimal_places=6, default=1.0)
+    start = models.DecimalField(max_digits=6, decimal_places=4, default=0.0)
+    end = models.DecimalField(max_digits=6, decimal_places=4, default=1.0)
     expression = models.CharField(max_length=124)
-    step = models.DecimalField(max_digits=10, decimal_places=6, default=0.1)
+    step = models.DecimalField(max_digits=4, decimal_places=2, default=0.1)
 
     class Meta:
         db_table = 'math_expression'
