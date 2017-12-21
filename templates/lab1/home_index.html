@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load json_list %}
+
+
 {% block title %}
-    {% load widget_tweaks %}
 
 {% endblock %}
 {% block body %}
@@ -8,7 +11,7 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-7">
                     <form action="" method="post">
                         {% csrf_token %}
                         <div class="panel panel-default">
@@ -16,24 +19,33 @@
                                 <h3 class="panel-title">Enter data</h3>
                             </div>
                             <div class="panel-body">
-
+                                {{ form.non_field_errors }}
                                 {% for field in form %}
                                     <div class="form-group">
-                                        {{ field.errors }}
-                                        {{ field.label_tag }}
-                                        {% render_field field class="form-control" %}
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                {{ field.label_tag }}
+                                            </div>
+                                            <div class="col-sm-8">
+                                                {{ field.errors }}
+                                                {% render_field field class="form-control" %}
+                                            </div>
+                                        </div>
                                     </div>
                                 {% endfor %}
-
-
                             </div>
-                            <div class="panel-footer">
-                                <button type="submit" class="btn btn-success btn-large">Solve</button>
+                            <div class="panel-footer" style="text-align: center;">
+                                <button type="submit" class="btn btn-success btn-large" style="width: 50%;">Solve</button>
                             </div>
                         </div>
                     </form>
+                    <div class="form-group">
+                      <label for="answer">Answer:</label>
+                      <textarea class="form-control" rows="2" id="answer" readonly>{{ answer }}</textarea>
+                    </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     <canvas id="myChart" width="400" height="400"></canvas>
                 </div>
             </div>
@@ -52,15 +64,16 @@
     </main>
 
     <script>
+        {% if not first.has_break %}
         var configFirst = {
             type: 'line',
             data: {
-                labels: {{ first.get_abscissa_only }},
+                labels: {% json_list first.get_abscissa_only %},
                 datasets: [{
                     label: '{{ first.expr }}',
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
-                    data: {{ first.get_ordinate_only }},
+                    data: {% json_list first.get_ordinate_only %},
                     fill: false
                 }]
             },
@@ -100,12 +113,12 @@
         var configSecond = {
             type: 'line',
             data: {
-                labels: {{ second.get_abscissa_only }},
+                labels: {% json_list second.get_abscissa_only %},
                 datasets: [{
                     label: '{{ second.expr }}',
                     backgroundColor: 'rgb(54, 162, 235)',
                     borderColor: 'rgb(54, 162, 235)',
-                    data: {{ second.get_ordinate_only }},
+                    data: {% json_list second.get_ordinate_only %},
                     fill: false
                 }]
             },
@@ -145,12 +158,12 @@
         var configThird = {
             type: 'line',
             data: {
-                labels: {{ third.get_abscissa_only }},
+                labels: {% json_list third.get_abscissa_only %},
                 datasets: [{
                     label: '{{ third.expr }}',
                     backgroundColor: 'rgb(75, 192, 192)',
                     borderColor: 'rgb(75, 192, 192)',
-                    data: {{ third.get_ordinate_only }},
+                    data: {% json_list third.get_ordinate_only %},
                     fill: false
                 }]
             },
@@ -186,30 +199,35 @@
                 }
             }
         };
+        {% endif %}
 
         var config = {
             type: 'line',
             data: {
-                labels: {{ first.get_abscissa_only }},
+                labels: {% json_list first.get_abscissa_only %},
                 datasets: [{
                     label: "Initial Data",
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
-                    data: {{ first.get_ordinate_only }},
+                    data: {% json_list first.get_ordinate_only %},
                     fill: false
-                }, {
-                    label: "Ordinary Least Squares",
-                    backgroundColor: 'rgb(54, 162, 235)',
-                    borderColor: 'rgb(54, 162, 235)',
-                    data: {{ second.get_ordinate_only }},
-                    fill: false
-                }, {
-                    label: "Taylor Method",
-                    backgroundColor: 'rgb(75, 192, 192)',
-                    borderColor: 'rgb(75, 192, 192)',
-                    data: {{ third.get_ordinate_only }},
-                    fill: false
-                }]
+                },
+                {% if not first.has_break %}
+                    {
+                        label: "Ordinary Least Squares",
+                        backgroundColor: 'rgb(54, 162, 235)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        data: {% json_list second.get_ordinate_only %},
+                        fill: false
+                    }, {
+                        label: "Taylor Method",
+                        backgroundColor: 'rgb(75, 192, 192)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        data: {% json_list third.get_ordinate_only %},
+                        fill: false
+                    }
+                {% endif %}
+                ]
             },
             options: {
                 responsive: true,
@@ -246,15 +264,19 @@
 
 
         window.onload = function() {
-            var first = document.getElementById("myFirstChart").getContext("2d");
-            window.myFirst = new Chart(first, configFirst);
-            var second = document.getElementById("mySecondChart").getContext("2d");
-            window.mySecond = new Chart(second, configSecond);
-            var third = document.getElementById("myThirdChart").getContext("2d");
-            window.myThird = new Chart(third, configThird);
+            {% if not first.has_break %}
+                var first = document.getElementById("myFirstChart").getContext("2d");
+                window.myFirst = new Chart(first, configFirst);
+                var second = document.getElementById("mySecondChart").getContext("2d");
+                window.mySecond = new Chart(second, configSecond);
+                var third = document.getElementById("myThirdChart").getContext("2d");
+                window.myThird = new Chart(third, configThird);
+            {% endif %}
             var chart = document.getElementById("myChart").getContext("2d");
             window.myChart = new Chart(chart, config);
-
+            {% if first.has_break %}
+                alert('{{ answer }}');
+            {% endif %}
         };
 
     </script>
