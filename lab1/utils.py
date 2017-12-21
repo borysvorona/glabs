@@ -2,9 +2,6 @@ from sympy import N, symbols, sympify, zoo, diff
 
 
 class Function(object):
-    #   1+ctg(x/2)-(1-2*cos(x/2)**2)+sin(x)**2
-    #   1+cot(x/2)-(1-2*cos(x/2)**2)+sin(x)**2
-    #   1+(cos(x/2)/sin(x/2))-(1-2*cos(x/2)**2)+sin(x)**2
 
     def __init__(self, expr, start, end, step):
         self.expr = expr
@@ -17,13 +14,13 @@ class Function(object):
         x = symbols('x')
         xx = self.start
         result = []
-        while xx <= self.end:
+        while xx < self.end:
+            xx += self.step
             try:
                 result.append([float(xx),
                                (None if N(sympify(self.expr).subs(x, xx)) == zoo else N(sympify(self.expr).subs(x, xx)))])
             except Exception as ex:
                 print(ex)
-            xx += self.step
         return result
 
     @property
@@ -31,30 +28,30 @@ class Function(object):
         x = symbols('x')
         xx = self.start
         result = []
-        while xx <= self.end:
+        while xx < self.end:
+            xx += self.step
             try:
                 result.append(None if N(sympify(self.expr).subs(x, xx)) == zoo else N(sympify(self.expr).subs(x, xx)))
             except Exception as ex:
                 print(ex)
-            xx += self.step
         return result
 
     @property
     def get_abscissa_only(self):
         xx = self.start
         result = []
-        while xx <= self.end:
-            result.append(round(float(xx), 4))
+        while xx < self.end:
             xx += self.step
+            result.append(round(float(xx), 4))
         return result
 
     @property
     def count(self):
         xx = self.start
         count = 0
-        while xx <= self.end:
-            count += 1
+        while xx < self.end:
             xx += self.step
+            count += 1
         return count
 
     @property
